@@ -13,7 +13,7 @@
 
 &nbsp;&nbsp;2.一个被系统认为是符合规范的硬盘主引导扇区的特征是什么?
 ### 二、实验过程及结果
-#### <a name="1">1.操作系统镜像文件 ucore.img 是如何一步一步生成的？</a>
+#### $\color{blue}{1.操作系统镜像文件 ucore.img 是如何一步一步生成的？}$
 ##### 执行 “make V= ”查看make执行了哪些命令
 ![执行make1](https://i.loli.net/2019/10/17/wxe4Bh6FH2WDaZv.png)
 ![执行make2](https://i.loli.net/2019/10/17/qwRBcGJvzStkmrs.png)
@@ -61,13 +61,14 @@
 ```dd if=bin/kernel of=bin/ucore.img seek=1 conv=notrunc```   
 再创bin/kernel写入ucore.img文件；
 
-#### <a name="2">2.一个被系统认为是符合规范的硬盘主引导扇区的特征是什么?</a>
+#### $\color{blue}{2.一个被系统认为是符合规范的硬盘主引导扇区的特征是什么?}$
 ##### 在labcodes/lab1/tools/目录中打开sign.c
 ![sign.c](https://i.loli.net/2019/10/17/yxkpUstnz6M7LIW.png)
-##### <a name="结论">结论</a>：规范的硬盘主引导扇区大小为512字节，第510个(倒数第二个)字节是0x55， 第511个(倒数第一个)字节是0xAA，所以最后16位为0x55AA。
+##### $\color{blue}{结论}$：规范的硬盘主引导扇区大小为512字节，第510个(倒数第二个)字节是0x55， 第511个(倒数第一个)字节是0xAA，所以最后16位为0x55AA。
 
 <mark>练习1&nbsp;&nbsp;end</mark> 
 ****
+---
 
 ## <mark>练习2 使用 qemu 执行并调试 lab1 中的软件</mark> 
 ###  一、题目   
@@ -76,7 +77,7 @@
     3. 从 0x7c00 开始跟踪代码运行,将单步跟踪反汇编得到的代码与 bootasm.S 和 bootblock.asm进行比较。   
     4. 自己找一个 bootloader 或内核中的代码位置,设置断点并进行测试。
 ### 二、实验过程及结果
-#### <a name="1">1.从 CPU 加电后执行的第一条指令开始,单步跟踪 BIOS 的执行。</a>
+#### $\color{blue}{1.从 CPU 加电后执行的第一条指令开始,单步跟踪 BIOS 的执行。}$
 ##### （1）结合gdb和qemu调试ucore
 进到lab1_result目录。输入```make debug```连接gdb和qemu，
 出现cgdb未安装的错误：
@@ -94,7 +95,7 @@
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;cs：16位段寄存器（base）左移4位后叠加eip形成最终20位地址。  
 bios：硬件初始化工作，保证机器正常工作。加载存储设备上的第一个主引导扇区（MBR）的512字节到0x7c00处，同时将ip跳至0x7c00，使得开始执行扇区中代码，其中bootbloader完成对ucore的进一步加载。   
 
-#### <a name="2">2. 在初始化位置 0x7c00 设置实地址断点,测试断点正常。 </a>
+#### $\color{blue}{2. 在初始化位置 0x7c00 设置实地址断点,测试断点正常。}$ 
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;在gdb命令中，使用b*[地址]就可以在指定的内存地址设置断点，当qemu中的CPU执行到指定地址时，便会将控制权交给gdb。所以在gdb窗口中输入```b *00007c00```设置断点，然后输入```continue```便可以使ucore运行到0x7c00处。
 
 输入```x/i &pc```查看结果，可以看到执行的第一条指令是cli，禁用中断，连接地址是0x7c00.
@@ -103,7 +104,8 @@ bios：硬件初始化工作，保证机器正常工作。加载存储设备上�
 从 0x7c00 开始跟踪代码运行，在gdb中输入```x/10i $pc```查看近10条指令的反汇编内容，并利用stepi指令（单步下一条机器指令）依次查看反汇编得到的代码：
 ![2.4](https://i.loli.net/2019/10/28/Ba5lbSZMVhxXs8d.png)
 
-#### <a name="3">3. 从 0x7c00 开始跟踪代码运行,将单步跟踪反汇编得到的代码与 bootasm.S 和 bootblock.asm进行比较。</a>
+#### $\color{blue}{3. 从 0x7c00 开始跟踪代码运行,将单步跟踪反汇编得到的代码与 bootasm.S 和 bootblock.asm进行比较。}$ 
+
 
 ![2.5](https://i.loli.net/2019/10/31/fubxYZPMGtsXkhA.png)
 ![2.6](https://i.loli.net/2019/10/31/5qXFhi21YHtQcdG.png)
@@ -115,11 +117,12 @@ bios：硬件初始化工作，保证机器正常工作。加载存储设备上�
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;【bootblock.asm中的代码】
   
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;对比在call bootmain之前的代码，发现：
-<font color="blue">bootblock.asm的代码与反汇编得到的代码完全相同，而bootasm.S的代码与反汇编得到的代码前半部分相同，后半部分不同。 </font>   
+$\color{blue}{bootblock.asm的代码与反汇编得到的代码完全相同，而bootasm.S的代码与反汇编得到的代码前半部分相同，后半部分不同。}$ 
+  
 >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;这是由于bootasm.S 编译得到bootasm.o，bootmain.c 编译得到bootmain.o，然后 bootasm.o 和bootmain.o连接生成bootblock.o 得到bootbloader，反汇编得到bootblock.asm。
 bootblock.asm当中的代码是i386下反汇编的结果，而到此代码还应运行于实模式下。gdb中的是在i8086下反汇编得到的结果。
 
-#### <a name="4">4.自己找一个 bootloader 或内核中的代码位置,设置断点并进行测试。</a>
+#### $\color{blue}{4.自己找一个 bootloader 或内核中的代码位置,设置断点并进行测试。}$ 
 ##### （1）输入```b *0x7c08``` 然后输入```c```
 ![2.9](https://i.loli.net/2019/11/06/8H5vprKsOLFnMIj.jpg)
 ##### （2）输入```x/10i $pc```查看近10条指令的反汇编内容,输入```stepi```单步执行下一条机器指令，再次输入```x/10i $pc```：
@@ -177,14 +180,14 @@ bootblock.asm当中的代码是i386下反汇编的结果，而到此代码还应
 #### bootloader如何读取硬盘扇区的？  
 #### bootloader是如何加载ELF格式的OS？
 ### 二、实验过程及结果
-#### <a name="1">1.bootloader如何读取硬盘扇区的？</a>
+#### $\color{blue}{1.bootloader如何读取硬盘扇区的？}$
 打开bootmain.c文件，可以看到通过readsect（void *dst，uint32_t secno）函数从设备的第 secno扇区读取数据到dst位置。
 ##### （1）等待硬盘就绪函数
 ![4.1](https://i.loli.net/2019/11/06/AWztNLEZ8lwcYPS.jpg)
 检查0x01F7的高两位，如果是01就跳出循环，否则就一直循环等待。
 ##### （2）readsect函数
 ![4.2](https://i.loli.net/2019/11/06/1kzarxKnBsA8Fgv.jpg)
-**<font color=red>代码分析：</font>**
+**$\color{red}{代码分析}$**
 
     outb(0x1F2, 1);    //读取一个扇区                       
     outb(0x1F3, secno & 0xFF);   //要读取的扇区编号，LBA参数的0～7位 
@@ -196,14 +199,14 @@ bootblock.asm当中的代码是i386下反汇编的结果，而到此代码还应
     insl(0x1F0, dst, SECTSIZE / 4);// read a sector读取一个扇区，将磁盘扇区的数据读取到指定内存  
     }
 
-#### <a name="1">2.bootloader是如何加载ELF格式的OS？</a>
+#### $\color{blue}{2.bootloader是如何加载ELF格式的OS？}$
 ##### （1）简介ELF    
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ELFheader是描述整个文件的组织，program header table告诉系统如何创建进程映像。用来构造进程映像的目标文件必须具有程序头部表；
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;sections部分包含链接视图的大量信息:指令，数据、符号表、重定位信息等等；
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;section header table包含了描述文件节区的信息，每个节区在表中都有一项，每一项给出诸如节区名称、节区大小这类信息；
-<img src="https://i.loli.net/2019/11/07/CmYU9foXvqISisu.jpg"  height="200" width="380">
-<img src="https://i.loli.net/2019/11/07/l4TH9FsxdaYerQv.jpg"  height="200" width="380">
-<img src="https://i.loli.net/2019/11/07/3TlAwBL1jf9X8c7.jpg"  height="250" width="400">
+![](https://i.loli.net/2019/11/07/CmYU9foXvqISisu.jpg)
+![](https://i.loli.net/2019/11/07/l4TH9FsxdaYerQv.jpg)
+![](https://i.loli.net/2019/11/07/3TlAwBL1jf9X8c7.jpg)
 ##### （2）打开bootmain.c文件，可以看到通过bootmain（void）函数实现加载ELF格式的OS：
 ![4.4](https://i.loli.net/2019/11/07/IMkfY8LBtWn3iAc.jpg)
 
@@ -212,7 +215,7 @@ bootblock.asm当中的代码是i386下反汇编的结果，而到此代码还应
 2.从硬盘MBR后面的多个扇区上读取kernal in ELF格式的ucore kernel并放在内存中固定位置。  
 3.将cs eip值指向os内核所在内存中的起始点（入口点），跳转到此入口点执行，此时控制权到了ucore os手中。
   
-**<font color=red>代码分析：</font>**
+**$\color{red}{代码分析}$**
 
 ```
 void
@@ -263,8 +266,7 @@ pushl   %ebp
 movl   %esp , %ebp
 
 >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;这样在程序执行到一个函数的实际指令前，已经有以下数据顺序入栈：参数、返回地址、ebp寄存器。由此得到类似如下的栈结构（参数入栈顺序跟调用方式有关，这里以C语言默认的CDECL为例）：
-<img src="https://i.loli.net/2019/11/07/6mb4XWDICfJtedH.jpg"  height="200" width="380">
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;函数调用栈结构
+![](https://i.loli.net/2019/11/07/6mb4XWDICfJtedH.jpg)&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;函数调用栈结构
 >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;这两条汇编指令的含义是：首先将ebp寄存器入栈，然后将栈顶指针esp赋值给ebp。“mov ebp esp”这条指令表面上看是用esp覆盖ebp原来的值，其实不然。因为给ebp赋值之前，原ebp值已经被压栈（位于栈顶），而新的ebp又恰恰指向栈顶。此时ebp寄存器就已经处于一个非常重要的地位，该寄存器中存储着栈中的一个地址（原ebp入栈后的栈顶），从该地址为基准，向上（栈底方向）能获取返回地址、参数值，向下（栈顶方向）能获取函数局部变量值，而该地址处又存储着上一层函数调用时的ebp值。
 >
 >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;一般而言，ss:[ebp+4]处为返回地址，ss:[ebp+8]处为第一个参数值（最后一个入栈的参数值，此处假设其占用4字节内存），ss:[ebp-4]处为第一个局部变量，ss:[ebp]处为上一层ebp值。由于ebp中的地址处总是“上一层函数调用时的ebp值”，而在每一层函数调用中，都能通过当时的ebp值“向上（栈底方向）”能获取返回地址、参数值，“向下（栈顶方向）”能获取函数局部变量值。如此形成递归，直至到达栈底。这就是函数调用栈。
@@ -311,11 +313,11 @@ uint32_t eip = read_eip();
 #### &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;3.请编程完善trap.c中的中断处理函数trap，在对时钟中断进行处理的部分填写trap函数中处理时钟中断的部分，使操作系统每遇到100次时钟中断后，调用print_ticks子程序，向屏幕上打印一行文字”100 ticks”。
 
 ### 二、实验过程及结果
-#### <a name="2">1.中断描述符表（也可简称为保护模式下的中断向量表）中一个表项占多少字节？其中哪几位代表中断处理代码的入口?</a>
+#### $\color{blue}{1.中断描述符表（也可简称为保护模式下的中断向量表）中一个表项占多少字节？其中哪几位代表中断处理代码的入口?}$
 一个表项的结构如下：
 ![6.1](https://i.loli.net/2019/11/07/qlXEOCIT7uhABrd.jpg)
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;中断向量表中的一个表项(structgatedesc) 为8字节。 其中，0~15位(即0~1字节)、48~63 (即6~7字节)位为偏移量的低16位和高16位，16~31 位(即2~3字节)为段选择子，从而得到中断处理代码的入口地址。
-#### <a name="2">2.请编程完善kern/trap/trap.c中对中断向量表进行初始化的函数idt_init。在idt_init函数中，依次对所有中断入口进行初始化。使用mmu.h中的SETGATE宏，填充idt数组内容。每个中断的入口由tools/vectors.c生成，使用trap.c中声明的vectors数组即可。</a>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;中断向量表中的一个表项(structgatedesc) 为8字节。 其中，0～15位(即0～1字节)、48～63 (即6～7字节)位为偏移量的低16位和高16位，16～31 位(即2～3字节)为段选择子，从而得到中断处理代码的入口地址。
+#### $\color{blue}{2.请编程完善kern/trap/trap.c中对中断向量表进行初始化的函数idt_init。在idt_init函数中，依次对所有中断入口进行初始化。使用mmu.h中的SETGATE宏，填充idt数组内容。每个中断的入口由tools/vectors.c生成，使用trap.c中声明的vectors数组即可。}$
 ##### （1）打开lab1/kern/trap/trap.c找到idt_init函数，将注释翻译成中文：
 ![6.2](https://i.loli.net/2019/11/07/a1zkt8L4XxJ5HrR.jpg)
 ##### （2）根据代码中的注释，完成程序:
@@ -332,7 +334,7 @@ SETGATE(idt[T_SYSCALL],1,KERNEL_CS,__vectors[T_SYSCALL],DPL_USER);
 lidt(&idt_pd);
 ```
 
-##### （3）**<font color=red>代码分析：</font>**
+##### （3）**$\color{red}{代码分析}$**
 ###### 1)获取IDT表的入口地址
 ```extern uintptr. t. vectors[];```
 __vectors[] 是保存在vectors.S中的256个中断处理例程的入口地址数组。查看mmu.h中的SETGATE宏，这个宏是进行段选择符的构造:
@@ -357,7 +359,7 @@ SETGATE(idt[T_ SYSCALL], 1, GD_ KTEXT,_ vectors[T_ SYSCALL], DPL _USER);
 lidt(&idt_ pd);
 ```
 
-#### <a name="2">3.请编程完善trap.c中的中断处理函数trap，在对时钟中断进行处理的部分填写trap函数中处理时钟中断的部分，使操作系统每遇到100次时钟中断后，调用print_ticks子程序，向屏幕上打印一行文字”100 ticks”。</a>
+#### $\color{blue}{3.请编程完善trap.c中的中断处理函数trap，在对时钟中断进行处理的部分填写trap函数中处理时钟中断的部分，使操作系统每遇到100次时钟中断后，调用print_ticks子程序，向屏幕上打印一行文字”100 ticks”。}$
 ##### （1）打开lab1/kern/trap/trap.c找到trap_dispatch函数，将注释翻译成中文：
 ![6.4](https://i.loli.net/2019/11/08/6eRLEq7dhlxtvcg.jpg)
 ##### （2）根据代码中的注释，完成程序:
