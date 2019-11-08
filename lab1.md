@@ -13,7 +13,8 @@
 
 &nbsp;&nbsp;2.一个被系统认为是符合规范的硬盘主引导扇区的特征是什么?
 ### 二、实验过程及结果
-#### $\color{blue}{1.操作系统镜像文件 ucore.img 是如何一步一步生成的？}$
+#### <font size = 4 color = Blue > 1.操作系统镜像文件 ucore.img 是如何一步一步生成的？</font>
+
 ##### 执行 “make V= ”查看make执行了哪些命令
 ![执行make1](https://i.loli.net/2019/10/17/wxe4Bh6FH2WDaZv.png)
 ![执行make2](https://i.loli.net/2019/10/17/qwRBcGJvzStkmrs.png)
@@ -66,7 +67,7 @@
 ![sign.c](https://i.loli.net/2019/10/17/yxkpUstnz6M7LIW.png)
 ##### $\color{blue}{结论}$：规范的硬盘主引导扇区大小为512字节，第510个(倒数第二个)字节是0x55， 第511个(倒数第一个)字节是0xAA，所以最后16位为0x55AA。
 
-<mark>练习1&nbsp;&nbsp;end</mark> 
+==练习1&nbsp;&nbsp;end==
 ****
 ---
 
@@ -380,3 +381,4 @@ break;
 ##### 3）运行程序，在lab1terminal下输入 ```make qemu```：
 ![6.6](https://i.loli.net/2019/11/08/l8H2rE7k4JUOs1Y.jpg)
 
+<font face="楷体" size = 4 color = Blue > MarkDown
