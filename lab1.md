@@ -131,18 +131,24 @@ bootblock.asm当中的代码是i386下反汇编的结果，而到此代码还应
 
 ## <mark>练习3 分析bootloader进入保护模式的过程</mark> 
 ### 一、题目
+
 #### &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;BIOS将通过读取硬盘主引导扇区到内存，并转跳到对应内存中的位置执行bootloader。请分析bootloader是如何完成从实模式进入保护模式的
+
 ### 二、实验过程及结果
+
 ####（1）从0x7c00进入bootloader，16位实模式
 ![3.1](https://i.loli.net/2019/11/06/4nqtkwSuWEHBNeU.jpg)
+
 ####（2）将中断标志位清0，关中断端；将DF置零，设置字符串操作是递增方向：
+
 ![3.2](https://i.loli.net/2019/11/06/Kw2V3qNDY4ct8IH.jpg)
+
 ####（3）将段寄存器（DS，ES，SS）清零
 ![3.3](https://i.loli.net/2019/11/06/z69JgGMN8DhrXdB.jpg)
+
 ####（4）开启A20地址线，使全部32位地址线可用，突破1M的寻址空间达到4G
 >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;为了兼容早期计算机，A20地址线在实模式下不能用，超过1M的地址，默认返回到地址0，重新从0开始循环计数。
 要开启A20，就要给8042发命令。8042有两个IO端口：0x60和0x64.激活流程为：发送0xd1命令到0x64端口 --> 发送0xdf到0x60
-
 
 ##### 等待8042输出端口为空:![3.4](https://i.loli.net/2019/11/06/LVvwBkzs1Fp47lJ.jpg)
 >从0x64端口读取一个字节的数据到al中,经test命令，若结果为0，即al第2位为0，则代表键盘缓冲区为0。
