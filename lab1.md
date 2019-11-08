@@ -89,7 +89,7 @@
 >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;在硬件重置之后获取并执行的第一个指令位于物理地址FFFFFFF0H。在***实地址***模式下，地址FFFFFFF0H超出了处理器的1兆字节可寻址范围，x86使用实模式下寻址方式：初始时段选择器cs=F000h，eip=0000FFFH  
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;而实际地址：cs内的基址base+eip=FFFF0000H+0000FFF0H=FFFFFFF0H（启动最终地址，只读），此地址为加电后内存（bios）所在地址，从此地址取第一条跳转指令，跳进bios代码中执行，寻址空间只有1m。
 
-##### (2)bios首条指令为跳转指令，将跳转到Ox000:Oxe05b这个地址
+#####  (2)bios首条指令为跳转指令，将跳转到Ox000:Oxe05b这个地址
 ```（gdb）si```进入寄存器，从这里开始BIOS的代码   
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;cs：16位段寄存器（base）左移4位后叠加eip形成最终20位地址。  
 bios：硬件初始化工作，保证机器正常工作。加载存储设备上的第一个主引导扇区（MBR）的512字节到0x7c00处，同时将ip跳至0x7c00，使得开始执行扇区中代码，其中bootbloader完成对ucore的进一步加载。   
@@ -120,11 +120,11 @@ bios：硬件初始化工作，保证机器正常工作。加载存储设备上�
 bootblock.asm当中的代码是i386下反汇编的结果，而到此代码还应运行于实模式下。gdb中的是在i8086下反汇编得到的结果。
 
 #### <a name="4">4.自己找一个 bootloader 或内核中的代码位置,设置断点并进行测试。</a>
-#####（1）输入```b *0x7c08``` 然后输入```c```
+##### （1）输入```b *0x7c08``` 然后输入```c```
 ![2.9](https://i.loli.net/2019/11/06/8H5vprKsOLFnMIj.jpg)
-#####（2）输入```x/10i $pc```查看近10条指令的反汇编内容,输入```stepi```单步执行下一条机器指令，再次输入```x/10i $pc```：
+##### （2）输入```x/10i $pc```查看近10条指令的反汇编内容,输入```stepi```单步执行下一条机器指令，再次输入```x/10i $pc```：
 ![2.10](https://i.loli.net/2019/11/06/nW926EoUqRJ4wAK.jpg)
-#####（3）输入```c```，qemu会继续工作
+##### （3）输入```c```，qemu会继续工作
 
 <mark>练习2&nbsp;&nbsp;end</mark> 
 ****
@@ -151,16 +151,16 @@ bootblock.asm当中的代码是i386下反汇编的结果，而到此代码还应
 ##### 写8042端口的指令，将al的值输出到8042端口：![3.5](https://i.loli.net/2019/11/06/pElwBUsWocndYRX.jpg)
 ##### 检查8042输出端口不忙：![3.6](https://i.loli.net/2019/11/06/JI8kGeb1vz5PuQO.jpg)
 设A20位为1，打开A20地址线：![3.7](https://i.loli.net/2019/11/06/wCDBvZlSqpIMPxb.jpg)
-####（5）将全局描述符表GDT加载到全局描述符表寄存器GDTR（将表的大小和起始位置存入）![3.8](https://i.loli.net/2019/11/06/sPFAg12rTEJ4MKQ.jpg)
+#### （5）将全局描述符表GDT加载到全局描述符表寄存器GDTR（将表的大小和起始位置存入）![3.8](https://i.loli.net/2019/11/06/sPFAg12rTEJ4MKQ.jpg)
 ##### 将CRO寄存器PE位置1，开启保护模式：
 ![3.9](https://i.loli.net/2019/11/06/B3gJ7zSbNLsOWDm.jpg)
-####（6）通过长跳转指令跳到保护模式的起始位置，将处理器转换为32位模式：
+#### （6）通过长跳转指令跳到保护模式的起始位置，将处理器转换为32位模式：
 >将$PROT_MODE_CSEG加载到cs中，cs对应的高速缓冲存储器会加载代码段描述符,同样将$protcseg加载到ip中 
 
 ![3.10](https://i.loli.net/2019/11/06/Japzkc8TiW73gqZ.jpg)
-####（7）设置保护模式的段寄存器
+#### （7）设置保护模式的段寄存器
 ![3.11](https://i.loli.net/2019/11/06/LWbismacCpPg5Mn.jpg)
-####（8）建立堆栈，并进入c程序（进入bootmain）
+#### （8）建立堆栈，并进入c程序（进入bootmain）
 ![3.12](https://i.loli.net/2019/11/06/w23dTVO6KSfAEZx.jpg)
 ### 三、小结
 ***总结Bootload的启动过程:***   
