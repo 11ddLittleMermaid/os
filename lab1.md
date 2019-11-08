@@ -95,8 +95,8 @@
 bios：硬件初始化工作，保证机器正常工作。加载存储设备上的第一个主引导扇区（MBR）的512字节到0x7c00处，同时将ip跳至0x7c00，使得开始执行扇区中代码，其中bootbloader完成对ucore的进一步加载。   
 
 #### <a name="2">2. 在初始化位置 0x7c00 设置实地址断点,测试断点正常。 </a>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;在gdb命令中，使用b*[地址]就可以在指定的内存地址设置断点，当qemu中的CPU执行到指定地址时，便会将控制权交给gdb。所以在gdb窗口中输入```b *00007c00```设置断点，然后输入```continue
-```便可以使ucore运行到0x7c00处。
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;在gdb命令中，使用b*[地址]就可以在指定的内存地址设置断点，当qemu中的CPU执行到指定地址时，便会将控制权交给gdb。所以在gdb窗口中输入```b *00007c00```设置断点，然后输入```continue```便可以使ucore运行到0x7c00处。
+
 输入```x/i &pc```查看结果，可以看到执行的第一条指令是cli，禁用中断，连接地址是0x7c00.
 ![2.3](https://i.loli.net/2019/10/27/GCXgqewDIQ8d4Ti.png)
 
